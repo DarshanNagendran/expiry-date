@@ -61,3 +61,8 @@ python expiry_date_detection.py
 - Extend to handle multiple languages in OCR.
 - Optimize performance for better real-time analysis.
 
+## License
+This project is licensed under the MIT License.
+
+
+
