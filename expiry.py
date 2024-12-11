@@ -109,15 +109,15 @@ def check_latest_date(dates):
 
     # Check if the latest date has passed or not
     if latest_date < current_date:
-        return f"The latest date {latest_date.strftime('%d-%m-%Y')} has expired."
+        return f"The date {latest_date.strftime('%d-%m-%Y')} has expired."
     else:
-        return f"The latest date {latest_date.strftime('%d-%m-%Y')} is in the future."
+        return f"The date {latest_date.strftime('%d-%m-%Y')} is in the future."
 
 
 # Main logic
 if __name__ == "__main__":
     # Image path for the uploaded image
-    image_path = 'images/e2.png'  # Update the path if necessary
+    image_path = 'images/e4.jpeg'  # Update the path if necessary
 
     # Extract dates from the uploaded image
     dates = extract_dates_from_image(image_path)
