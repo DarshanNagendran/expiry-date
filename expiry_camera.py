@@ -6,7 +6,10 @@ import easyocr
 import threading
 import time
 import numpy as np
+<<<<<<< HEAD
 import mysql.connector
+=======
+>>>>>>> c2ef0e8ad7661e4d9ea7eea17819b8cf8c834c42
 
 # Set up Tesseract path (for Windows)
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'  # Update this path
@@ -57,7 +60,12 @@ def extract_dates_with_easyocr(image):
     processed_image = preprocess_image(image)
 
     # Use EasyOCR to perform OCR on the processed image
+<<<<<<< HEAD
     result = ocr_reader.readtext(processed_image, detail=0)
+=======
+    reader = easyocr.Reader(['en'])
+    result = reader.readtext(processed_image, detail=0)
+>>>>>>> c2ef0e8ad7661e4d9ea7eea17819b8cf8c834c42
 
     # Join the result to form a string
     extracted_text = " ".join(result)
@@ -124,6 +132,7 @@ def convert_to_datetime(date_str):
     return None
 
 
+<<<<<<< HEAD
 # Function to calculate remaining days
 def calculate_remaining_days(expiry_date):
     if expiry_date:
@@ -163,6 +172,9 @@ def store_expiry_data(expiry_date, expired, days_remaining):
 
 
 # Function to check latest date and store it in the database
+=======
+# Function to check if the date has passed or is in the future
+>>>>>>> c2ef0e8ad7661e4d9ea7eea17819b8cf8c834c42
 def check_latest_date(dates):
     current_date = datetime.now()
 
@@ -175,6 +187,7 @@ def check_latest_date(dates):
 
     latest_date = date_objects[0]
 
+<<<<<<< HEAD
     # Check if the expiry date has passed or is in the future
     expired = latest_date < current_date
     days_remaining = calculate_remaining_days(latest_date)
@@ -184,6 +197,10 @@ def check_latest_date(dates):
 
     if expired:
         return f"The latest date {latest_date.strftime('%d-%m-%Y')} has expired. {days_remaining} days ago."
+=======
+    if latest_date < current_date:
+        return f"The latest date {latest_date.strftime('%d-%m-%Y')} has expired."
+>>>>>>> c2ef0e8ad7661e4d9ea7eea17819b8cf8c834c42
     else:
         return f"The latest date {latest_date.strftime('%d-%m-%Y')} is in the future. {days_remaining} days remaining."
 
@@ -193,6 +210,7 @@ def ocr_thread(use_tesseract=True):
     global current_frame, current_result
     while True:
         if current_frame is not None:
+<<<<<<< HEAD
             # Resize the frame for faster processing
             resized_frame = cv2.resize(current_frame, (frame_resize_width,
                                                        int(current_frame.shape[0] * frame_resize_width / current_frame.shape[1])))
@@ -202,6 +220,12 @@ def ocr_thread(use_tesseract=True):
             else:
                 dates = extract_dates_with_easyocr(resized_frame)
 
+=======
+            if use_tesseract:
+                dates = extract_dates_with_tesseract(current_frame)
+            else:
+                dates = extract_dates_with_easyocr(current_frame)
+>>>>>>> c2ef0e8ad7661e4d9ea7eea17819b8cf8c834c42
             result = check_latest_date(dates)
             current_result = result
         time.sleep(1)
@@ -217,7 +241,10 @@ def main(use_tesseract=True):
         return
 
     threading.Thread(target=ocr_thread, args=(use_tesseract,), daemon=True).start()
+<<<<<<< HEAD
     frame_count = 0
+=======
+>>>>>>> c2ef0e8ad7661e4d9ea7eea17819b8cf8c834c42
 
     while True:
         ret, frame = cap.read()
@@ -225,12 +252,17 @@ def main(use_tesseract=True):
             print("Error: Could not read frame.")
             break
 
+<<<<<<< HEAD
         # Process only every `frame_processing_interval` frame
         frame_count += 1
         if frame_count % frame_processing_interval == 0:
             current_frame = frame
 
         # Display the OCR result on the video feed
+=======
+        current_frame = frame
+
+>>>>>>> c2ef0e8ad7661e4d9ea7eea17819b8cf8c834c42
         if current_result:
             color = (0, 255, 0) if "expired" not in current_result.lower() else (0, 0, 255)
             cv2.putText(frame, current_result, (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2, cv2.LINE_AA)
